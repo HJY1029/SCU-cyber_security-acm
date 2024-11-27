@@ -2,46 +2,46 @@
 #include <stdlib.h>
 #include <string.h>
 
-// ¶¨Òå¶ş²æÊ÷½Úµã½á¹¹Ìå
+// å®šä¹‰äºŒå‰æ ‘èŠ‚ç‚¹ç»“æ„ä½“
 struct Node {
-    int val;               // ½ÚµãµÄÖµ
-    struct Node* left;     // ×ó×Ó½ÚµãÖ¸Õë
-    struct Node* right;    // ÓÒ×Ó½ÚµãÖ¸Õë
-    struct Node* next;     // Ö¸ÏòÍ¬Ò»²ãÏÂÒ»¸ö½ÚµãµÄÖ¸Õë
+    int val;               // èŠ‚ç‚¹çš„å€¼ï¼ï¼ï¼
+    struct Node* left;     // å·¦å­èŠ‚ç‚¹æŒ‡é’ˆ
+    struct Node* right;    // å³å­èŠ‚ç‚¹æŒ‡é’ˆ
+    struct Node* next;     // æŒ‡å‘åŒä¸€å±‚ä¸‹ä¸€ä¸ªèŠ‚ç‚¹çš„æŒ‡é’ˆ
 };
 
-// ´´½¨Ò»¸öĞÂµÄ½Úµã£¬²¢³õÊ¼»¯Æä¸÷ÏîÊôĞÔ
+// åˆ›å»ºä¸€ä¸ªæ–°çš„èŠ‚ç‚¹ï¼Œå¹¶åˆå§‹åŒ–å…¶å„é¡¹å±æ€§
 struct Node* createNode(int val) {
-    struct Node* node = (struct Node*)malloc(sizeof(struct Node)); // ¶¯Ì¬·ÖÅäÄÚ´æ
-    node->val = val;  // ÉèÖÃ½ÚµãÖµ
-    node->left = NULL; // ×ó×Ó½ÚµãÎª¿Õ
-    node->right = NULL; // ÓÒ×Ó½ÚµãÎª¿Õ
-    node->next = NULL;  // Í¬²ãµÄÏÂÒ»¸ö½ÚµãÎª¿Õ
+    struct Node* node = (struct Node*)malloc(sizeof(struct Node)); // åŠ¨æ€åˆ†é…å†…å­˜
+    node->val = val;  // è®¾ç½®èŠ‚ç‚¹å€¼
+    node->left = NULL; // å·¦å­èŠ‚ç‚¹ä¸ºç©º
+    node->right = NULL; // å³å­èŠ‚ç‚¹ä¸ºç©º
+    node->next = NULL;  // åŒå±‚çš„ä¸‹ä¸€ä¸ªèŠ‚ç‚¹ä¸ºç©º
     return node;
 }
 
-// ²ã´Î±éÀú¶ş²æÊ÷£¬²¢Ìî³äÃ¿¸ö½ÚµãµÄ next Ö¸Õë
+// å±‚æ¬¡éå†äºŒå‰æ ‘ï¼Œå¹¶å¡«å……æ¯ä¸ªèŠ‚ç‚¹çš„ next æŒ‡é’ˆ
 struct Node* connect(struct Node* root) {
-    if (root == NULL) { // Èç¹ûÊ÷Îª¿Õ£¬Ö±½Ó·µ»Ø
+    if (root == NULL) { // å¦‚æœæ ‘ä¸ºç©ºï¼Œç›´æ¥è¿”å›
         return root;
     }
 
-    struct Node* queue[5000];  // Ê¹ÓÃ¶ÓÁĞ½øĞĞ²ã´Î±éÀú
-    int left = 0, right = 0;   // ¶ÓÁĞµÄ×óÓÒÖ¸Õë
-    queue[right++] = root;     // ½«¸ù½ÚµãÈë¶ÓÁĞ
+    struct Node* queue[5000];  // ä½¿ç”¨é˜Ÿåˆ—è¿›è¡Œå±‚æ¬¡éå†
+    int left = 0, right = 0;   // é˜Ÿåˆ—çš„å·¦å³æŒ‡é’ˆ
+    queue[right++] = root;     // å°†æ ¹èŠ‚ç‚¹å…¥é˜Ÿåˆ—
 
     while (left < right) {
-        int level_size = right - left;  // µ±Ç°²ãµÄ½Úµã¸öÊı
+        int level_size = right - left;  // å½“å‰å±‚çš„èŠ‚ç‚¹ä¸ªæ•°
 
         for (int i = 0; i < level_size; i++) {
-            struct Node* node = queue[left++];  // ³ö¶Óµ±Ç°½Úµã
+            struct Node* node = queue[left++];  // å‡ºé˜Ÿå½“å‰èŠ‚ç‚¹
 
-            // ÉèÖÃµ±Ç°½ÚµãµÄ next Ö¸Õë
+            // è®¾ç½®å½“å‰èŠ‚ç‚¹çš„ next æŒ‡é’ˆ
             if (i < level_size - 1) {
-                node->next = queue[left];  // Ö¸ÏòÍ¬²ãÏÂÒ»¸ö½Úµã
+                node->next = queue[left];  // æŒ‡å‘åŒå±‚ä¸‹ä¸€ä¸ªèŠ‚ç‚¹
             }
 
-            // ½«µ±Ç°½ÚµãµÄ×óÓÒ×Ó½ÚµãÈë¶ÓÁĞ
+            // å°†å½“å‰èŠ‚ç‚¹çš„å·¦å³å­èŠ‚ç‚¹å…¥é˜Ÿåˆ—
             if (node->left != NULL) {
                 queue[right++] = node->left;
             }
@@ -51,85 +51,85 @@ struct Node* connect(struct Node* root) {
         }
     }
 
-    return root; // ·µ»ØĞŞ¸ÄºóµÄ¸ù½Úµã
+    return root; // è¿”å›ä¿®æ”¹åçš„æ ¹èŠ‚ç‚¹
 }
 
-// ½«ÊäÈëµÄ×Ö·û´®½âÎöÎªÕûÊıÊı×é£¬·µ»ØÊı×éµÄ´óĞ¡
+// å°†è¾“å…¥çš„å­—ç¬¦ä¸²è§£æä¸ºæ•´æ•°æ•°ç»„ï¼Œè¿”å›æ•°ç»„çš„å¤§å°
 int parse_input_to_array(char* input_string, int* numbers) {
-    int count = 0;  // Êı×éÔªËØ¼ÆÊı
-    char* token = strtok(input_string, ",");  // °´¶ººÅ·Ö¸îÊäÈë×Ö·û´®
+    int count = 0;  // æ•°ç»„å…ƒç´ è®¡æ•°
+    char* token = strtok(input_string, ",");  // æŒ‰é€—å·åˆ†å‰²è¾“å…¥å­—ç¬¦ä¸²
     while (token != NULL) {
-        numbers[count++] = atoi(token);  // ½«×Ö·û´®×ª»»ÎªÕûÊı²¢´æÈëÊı×é
-        token = strtok(NULL, ",");  // »ñÈ¡ÏÂÒ»¸ö×Ó´®
+        numbers[count++] = atoi(token);  // å°†å­—ç¬¦ä¸²è½¬æ¢ä¸ºæ•´æ•°å¹¶å­˜å…¥æ•°ç»„
+        token = strtok(NULL, ",");  // è·å–ä¸‹ä¸€ä¸ªå­ä¸²
     }
 
-    return count;  // ·µ»Ø½âÎö³öµÄÔªËØÊıÁ¿
+    return count;  // è¿”å›è§£æå‡ºçš„å…ƒç´ æ•°é‡
 }
 
-// ¸ù¾İÕûÊıÊı×é¹¹½¨¶ş²æÊ÷
+// æ ¹æ®æ•´æ•°æ•°ç»„æ„å»ºäºŒå‰æ ‘
 struct Node* buildTree(int* nums, int size) {
     if (size == 0) {
-        return NULL;  // Èç¹ûÊı×éÎª¿Õ£¬·µ»Ø¿ÕÊ÷
+        return NULL;  // å¦‚æœæ•°ç»„ä¸ºç©ºï¼Œè¿”å›ç©ºæ ‘
     }
 
-    struct Node* root = createNode(nums[0]);  // ´´½¨¸ù½Úµã
-    struct Node* queue[5000];  // Ê¹ÓÃ¶ÓÁĞ¸¨Öú¹¹½¨Ê÷
-    int front = 0, rear = 0;   // ¶ÓÁĞµÄÇ°ºóÖ¸Õë
-    queue[rear++] = root;  // ¸ù½ÚµãÈë¶ÓÁĞ
+    struct Node* root = createNode(nums[0]);  // åˆ›å»ºæ ¹èŠ‚ç‚¹
+    struct Node* queue[5000];  // ä½¿ç”¨é˜Ÿåˆ—è¾…åŠ©æ„å»ºæ ‘
+    int front = 0, rear = 0;   // é˜Ÿåˆ—çš„å‰åæŒ‡é’ˆ
+    queue[rear++] = root;  // æ ¹èŠ‚ç‚¹å…¥é˜Ÿåˆ—
 
-    int i = 1;  // Êı×éË÷Òı
+    int i = 1;  // æ•°ç»„ç´¢å¼•
     while (i < size) {
-        struct Node* node = queue[front++];  // ³ö¶ÓÒ»¸ö½Úµã
+        struct Node* node = queue[front++];  // å‡ºé˜Ÿä¸€ä¸ªèŠ‚ç‚¹
         if (i < size) {
-            node->left = createNode(nums[i++]);  // ´´½¨×ó×Ó½Úµã
-            queue[rear++] = node->left;  // ×ó×Ó½ÚµãÈë¶Ó
+            node->left = createNode(nums[i++]);  // åˆ›å»ºå·¦å­èŠ‚ç‚¹
+            queue[rear++] = node->left;  // å·¦å­èŠ‚ç‚¹å…¥é˜Ÿ
         }
         if (i < size) {
-            node->right = createNode(nums[i++]);  // ´´½¨ÓÒ×Ó½Úµã
-            queue[rear++] = node->right;  // ÓÒ×Ó½ÚµãÈë¶Ó
+            node->right = createNode(nums[i++]);  // åˆ›å»ºå³å­èŠ‚ç‚¹
+            queue[rear++] = node->right;  // å³å­èŠ‚ç‚¹å…¥é˜Ÿ
         }
     }
 
-    return root;  // ·µ»Ø¹¹½¨ºÃµÄÊ÷µÄ¸ù½Úµã
+    return root;  // è¿”å›æ„å»ºå¥½çš„æ ‘çš„æ ¹èŠ‚ç‚¹
 }
 
-// ´òÓ¡Ê÷µÄ²ã´Î±éÀú½á¹û£¬²¢Êä³öÃ¿¸ö½ÚµãµÄ next Ö¸Õë
+// æ‰“å°æ ‘çš„å±‚æ¬¡éå†ç»“æœï¼Œå¹¶è¾“å‡ºæ¯ä¸ªèŠ‚ç‚¹çš„ next æŒ‡é’ˆ
 void printTree(struct Node* root) {
-    if (!root) {  // Èç¹ûÊ÷Îª¿Õ£¬´òÓ¡¿ÕÊı×é²¢·µ»Ø
+    if (!root) {  // å¦‚æœæ ‘ä¸ºç©ºï¼Œæ‰“å°ç©ºæ•°ç»„å¹¶è¿”å›
         printf("[]");
         return;
     }
 
-    struct Node* queue[10000];  // Ê¹ÓÃ¶ÓÁĞ½øĞĞ²ã´Î±éÀú
+    struct Node* queue[10000];  // ä½¿ç”¨é˜Ÿåˆ—è¿›è¡Œå±‚æ¬¡éå†
     int front = 0, rear = 0;
-    queue[rear++] = root;  // ½«¸ù½ÚµãÈë¶ÓÁĞ
+    queue[rear++] = root;  // å°†æ ¹èŠ‚ç‚¹å…¥é˜Ÿåˆ—
 
     while (front < rear) {
-        struct Node* node = queue[front++];  // ³ö¶Óµ±Ç°½Úµã
+        struct Node* node = queue[front++];  // å‡ºé˜Ÿå½“å‰èŠ‚ç‚¹
         if (node) {
-            queue[rear++] = node->left;  // ×ó×Ó½ÚµãÈë¶Ó
-            queue[rear++] = node->right; // ÓÒ×Ó½ÚµãÈë¶Ó
+            queue[rear++] = node->left;  // å·¦å­èŠ‚ç‚¹å…¥é˜Ÿ
+            queue[rear++] = node->right; // å³å­èŠ‚ç‚¹å…¥é˜Ÿ
         }
     }
 
-    int last_non_null_index = rear - 1;  // ×îºóÒ»¸ö·Ç¿Õ½ÚµãµÄË÷Òı
-    int trailing_null_count = 0;  // Í³¼ÆÎ²²¿Á¬ĞøµÄ NULL ½ÚµãÊı
+    int last_non_null_index = rear - 1;  // æœ€åä¸€ä¸ªéç©ºèŠ‚ç‚¹çš„ç´¢å¼•
+    int trailing_null_count = 0;  // ç»Ÿè®¡å°¾éƒ¨è¿ç»­çš„ NULL èŠ‚ç‚¹æ•°
 
-    // Í³¼ÆÎ²²¿Á¬ĞøµÄ NULL ½Úµã
+    // ç»Ÿè®¡å°¾éƒ¨è¿ç»­çš„ NULL èŠ‚ç‚¹
     while (queue[last_non_null_index--] == NULL) {
         trailing_null_count++;
     }
 
-    // Êä³öËùÓĞ½ÚµãµÄÖµ
+    // è¾“å‡ºæ‰€æœ‰èŠ‚ç‚¹çš„å€¼
     for (int i = 0; i < rear - trailing_null_count; i++) {
-        if (queue[i]->next) {  // Èç¹ûµ±Ç°½ÚµãµÄ next Ö¸Õë²»Îª¿Õ
+        if (queue[i]->next) {  // å¦‚æœå½“å‰èŠ‚ç‚¹çš„ next æŒ‡é’ˆä¸ä¸ºç©º
             printf("%d,", queue[i]->val);
         } else {
-            printf("%d,#,", queue[i]->val);  // ·ñÔòÊä³ö # ±íÊ¾Ã»ÓĞÏÂÒ»¸ö½Úµã
+            printf("%d,#,", queue[i]->val);  // å¦åˆ™è¾“å‡º # è¡¨ç¤ºæ²¡æœ‰ä¸‹ä¸€ä¸ªèŠ‚ç‚¹
         }
     }
 
-    // ×îºóÒ»¸ö½Úµã´¦Àí
+    // æœ€åä¸€ä¸ªèŠ‚ç‚¹å¤„ç†
     if (queue[rear - trailing_null_count - 1]->next) {
         printf("%d", queue[rear - trailing_null_count - 1]->val);
     } else {
@@ -138,19 +138,19 @@ void printTree(struct Node* root) {
 }
 
 int main() {
-    char input_string[5000];  // ´æ´¢ÊäÈëµÄ×Ö·û´®
-    fgets(input_string, sizeof(input_string), stdin);  // ´Ó±ê×¼ÊäÈë¶ÁÈ¡Ò»ĞĞ
-    int input_length = strlen(input_string);  // »ñÈ¡×Ö·û´®³¤¶È
+    char input_string[5000];  // å­˜å‚¨è¾“å…¥çš„å­—ç¬¦ä¸²
+    fgets(input_string, sizeof(input_string), stdin);  // ä»æ ‡å‡†è¾“å…¥è¯»å–ä¸€è¡Œ
+    int input_length = strlen(input_string);  // è·å–å­—ç¬¦ä¸²é•¿åº¦
     if (input_string[input_length - 1] == '\n') {
-        input_string[input_length - 1] = '\0';  // È¥µôÄ©Î²µÄ»»ĞĞ·û
+        input_string[input_length - 1] = '\0';  // å»æ‰æœ«å°¾çš„æ¢è¡Œç¬¦
     }
 
-    int nums[5000];  // ´æ´¢½âÎöºóµÄÊı×Ö
-    int array_size = parse_input_to_array(input_string, nums);  // ½âÎöÊäÈë×Ö·û´®ÎªÊı×é
+    int nums[5000];  // å­˜å‚¨è§£æåçš„æ•°å­—
+    int array_size = parse_input_to_array(input_string, nums);  // è§£æè¾“å…¥å­—ç¬¦ä¸²ä¸ºæ•°ç»„
 
-    struct Node* root = buildTree(nums, array_size);  // ¹¹½¨¶ş²æÊ÷
-    connect(root);  // Ìî³äÃ¿¸ö½ÚµãµÄ next Ö¸Õë
-    printTree(root);  // ´òÓ¡¶ş²æÊ÷µÄ²ã´Î±éÀú½á¹û
+    struct Node* root = buildTree(nums, array_size);  // æ„å»ºäºŒå‰æ ‘
+    connect(root);  // å¡«å……æ¯ä¸ªèŠ‚ç‚¹çš„ next æŒ‡é’ˆ
+    printTree(root);  // æ‰“å°äºŒå‰æ ‘çš„å±‚æ¬¡éå†ç»“æœ
 
     return 0;
 }
